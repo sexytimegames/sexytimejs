@@ -1,112 +1,73 @@
 require 'colors'
-_ = require 'underscore'
+_        = require 'underscore'
+readline = require 'readline'
+sexytime = require './libs/sexytime'
 
 
-what = [
-	'lips'
-	'chest'
-	'butt'
-	'back'
-	'private parts'
-	'thighs'
-	'neck'
-	'ears'
-	'stomach'
-	'all over'
-	'strip tease'
-	'put on something sexy'
-	'massage with lotion'
-]
+rli = readline.createInterface
+	input: process.stdin
+	output: process.stdout
 
-how = [
-	'spank'
-	'lick'
-	'suck'
-	'blow'
-	'kiss'
-	'rub'
-	'touch'
-	'anything you want'
-	'whip'
-	'feather'
-	'nibble'
-	'massage'
-]
+playerNames = ['Player 1', 'Player 2']
+playerColors = ['cyan', 'magenta']
+playersTurn = Math.round(Math.random()*1000)%playerNames.length
+startPlayer = playerNames[playersTurn%playerNames.length]
+round = 0
 
-howLong = [
-	'10 seconds'
-	'10 seconds'
-	'30 seconds'
-	'30 seconds'
-	'1 minute'
-	'As long as you want ;)'
-]
+what =
+
+how =
+
+howLong =
 
 isBlindFolded = false
 
-banList = 
-	lips: [
-		'spank'
-		'whip'
-	]
-	chest: [
-		'spank'
-		'whip'
-	]
-	butt:  [
-		'suck'
-		'lick'
-	]
-	back: [
-		'spank'
-		'whip'
-	]
-	'private parts': [
-		'spank'
-		'whip'
-		'nibble'
-	]
-	thighs: [
-		'spank'
-		'whip'
-	]
-	neck: [
-		'spank'
-		'whip'
-	]
-	ears: [
-		'spank'
-		'whip'
-	]
-	stomach: [
-		'spank'
-		'whip'
-		'nibble'
-		'suck'
-	]
+banList =
 
 
-console.log '##########################################################################'
-console.log '############           Are you ready to get intimate         #############'
-console.log '##########################################################################'
-console.log 'Here is what your partner will be doing to you :D'
+startGane = ->
+	rli.question ' Press enter to start', ->
+		playRound()
 
 
-value1 = what[Math.round(Math.random()*10000)%what.length]
+playRound = ->
+	if startPlayer is playerNames[playersTurn%playerNames.length]
+		process.stdout.write '\u001B[2J\u001B[0;0f'
+		round++
+		console.log "                                 Round #{round}"
+		console.log ''
 
-console.log "What: #{value1}".red
+	color = playerColors[playersTurn%playerNames.length]
+	player = playerNames[playersTurn%playerNames.length]
+	data = sexytime.play()
 
-unless value1 in ['strip tease', 'put on something sexy', 'massage with lotion']
-	okToDo =  _.difference how, banList[value1]
-	value2 = okToDo[Math.round(Math.random()*10000)%okToDo.length]
-	value3 = howLong[Math.round(Math.random()*10000)%howLong.length]
-	isBlindFolded = if Math.round(Math.random()*10000)%2 is 1 then 'yes' else 'no'
-	
-	console.log "How: #{value2}".blue
-	console.log "How Long: #{value3}".green
-	console.log "Am I blind folded? #{isBlindFolded}".yellow
+	console.log ' ##########################################################################'[color]
+	console.log " ############                    #{player}                     #############"[color]
+	console.log ' ##########################################################################'[color]
+	console.log ''
 
-
-console.log 'Have fun and be safe.'
+	console.log ' Here is what your partner will be doing to you :D'
+	console.log ''
 
 
+	if data.type is 'Sexy Fun'
+		console.log " What: #{data.what}"[color]
+		console.log " How: #{data.how}"[color]
+		console.log " How Long: #{data.howLong}"[color]
+		console.log " Am I blind folded? #{data.isBlindFolded}"[color]
+	else
+		console.log " Action: #{data.action}"[color]
+
+	playersTurn++
+
+	console.log ''
+
+	rli.question ' Press enter to continue', ->
+		console.log ''
+		console.log ''
+
+		playRound()
+
+
+
+startGane()

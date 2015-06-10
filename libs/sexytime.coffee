@@ -9,6 +9,24 @@ class SexyTime
         'Strip Tease'
         'Put on something sexy'
         'Massage with lotion'
+        'Text your partner something naughty ;)'
+        'Put on a blind fold and explore your partners body. While doing this explain what you are feeling and doing.'
+        'Role Play'
+    ]
+
+
+    # Role Playing Fantasies
+    rolePlayingFantasies: [
+        'Sexy Maid'
+        'Police Offcier Pulling You Over'
+        'Stripper in the Champagne Room'
+        'Strangers at a Bar'
+        'Princess Saved by her Knight in Shining Armor'
+        'Student Teacher'
+        'Sexy Secretary'
+        'Naughty Nurse'
+        'Massage with a Happy Ending'
+        'Actress and Casting Agent'
     ]
 
 
@@ -68,6 +86,7 @@ class SexyTime
         Butt:  [
             'Suck'
             'Lick'
+            'Blow'
         ]
         Back: [
             'Spank'
@@ -108,8 +127,14 @@ class SexyTime
         what = whatOpts[Math.round(Math.random()*10000)%whatOpts.length]
 
         if what in @actions
+            type = 'Sexy Action'
+
+            if what is 'Role Play'
+                type = 'Role Play Fantasy'
+                what = @rolePlayingFantasies[Math.round(Math.random()*10000)%@rolePlayingFantasies.length]
+
             return {
-                type: 'Sexy Action'
+                type: type
                 action: what
             }
 

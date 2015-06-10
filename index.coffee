@@ -46,8 +46,9 @@ playRound = ->
 	console.log ' ##########################################################################'[color]
 	console.log ''
 
-	console.log ' Here is what your partner will be doing to you :D'
-	console.log ''
+	unless data.type in ['Role Play Fantasy']
+		console.log ' Here is what your partner will be doing to you :D'
+		console.log ''
 
 
 	if data.type is 'Sexy Fun'
@@ -55,6 +56,11 @@ playRound = ->
 		console.log " How: #{data.how}"[color]
 		console.log " How Long: #{data.howLong}"[color]
 		console.log " Am I blind folded? #{data.isBlindFolded}"[color]
+	else if data.type is 'Role Play Fantasy'
+		console.log " Act out the following fantasy. If both of you can't take it anymore feel "
+		console.log " free to take the fantasy to your climax. ;)"
+		console.log ""
+		console.log " Role Play Fantasy: #{data.action}"[color]
 	else
 		console.log " Action: #{data.action}"[color]
 
